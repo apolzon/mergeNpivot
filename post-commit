@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+current_ref = File::open(File.expand_path(File.join(__FILE__, '../../HEAD')))
+ref_name = current_ref.first.chomp
+ref_parts = ref_name.split("/")
+branch_name = ref_parts.last
+exit 0 unless branch_name == "master"
+
+last_commit = system("git log -1")
+last_merge = system("git log -1 --merges")
+exit 0 unless last_commit == last_merge
+
+p "you just merged into master"
+# Use git log origin/master..master to find unpushed commits
+# Parse for Merge branch xxx-123-xxx
+#
+# Accept commandline arguments to change ticket status?
